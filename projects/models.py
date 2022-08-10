@@ -12,7 +12,7 @@ class Course(models.Model):
     rate = models.IntegerField(default=0)
     vote_count = models.IntegerField(default=0)
     author = models.ForeignKey(Profiles, blank=True, null=True, on_delete=models.SET_NULL, related_name='author')
-    price = models.DecimalField(max_digits=6, blank=True, null=False, decimal_places=2)
+    price = models.DecimalField(max_digits=6, blank=True, null=True, decimal_places=2)
     category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
