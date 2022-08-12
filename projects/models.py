@@ -28,30 +28,43 @@ class Category(models.Model):
 
 
 class Order(models.Model):
-    course_id = models.ForeignKey(Course, on_delete=models.SET_NULL, related_name='course_id')
-    course_category = models.ForeignKey(Course, on_delete=models.SET_NULL, related_name='course_category')
-    student_id = models.ForeignKey(Course, on_delete=models.SET_NULL, related_name='students_course')
-    bought_at = models.DateField(auto_now_add=True)
+    course_id = models.ForeignKey(Course, on_delete=models.SET_NULL, related_name='course_id', null=True)
+    student_id = models.ForeignKey(Course, on_delete=models.SET_NULL, related_name='students_course', null=True)
+    bought_at = models.DateTimeField(auto_now_add=True, null=True)
+
 
 
 class Homework(models.Model):
-    student = models.ForeignKey(Profiles, on_delete=models.SET_NULL, related_name='student_homework')
-    comment = models.CharField(max_length=100)
-    theme = models.ForeignKey('Theme', on_delete=models.SET_NULL, related_name='homeworks')
-    is_done = models.BooleanField(blank=True, null=False)
-    # dictionary - fayl
-    # conversation - fayl
-    # translation - fayl
-    # exercise - rasm
+    student = models.ForeignKey(Profiles, on_delete=models.SET_NULL, related_name='student_homework', null=True)
+    comment = models.CharField(max_length=100, null=True)
+    theme = models.ForeignKey('Theme', on_delete=models.SET_NULL, related_name='homeworks', null=True)
+    # check = models.ForeignKey('Theme_user', on_delete=models.SET_NULL, related_name='checkup', null=True)
+    is_done = models.BooleanField(blank=True, null=False, default=False)
+
+    def __bool__(self):
+        return f'{self.is_done}'
+
 
 
 class Theme(models.Model):
     name = models.CharField(max_length=50, blank=True, null=False)
-    course = models.ForeignKey(Course, on_delete=models.SET_NULL, related_name='course_theme')
+    course = models.ForeignKey(Course, on_delete=models.SET_NULL, related_name='course_theme', null=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    duration = models.IntegerField(default=40)
+
+    def __str__(self):
+        return f'{self.name}'
 
 
 class Theme_user(models.Model):
-    student = models.ForeignKey(Profiles, on_delete=models.SET_NULL, related_name='theme_user')
-    theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, related_name='theme')
+    student = models.ForeignKey(Profiles, on_delete=models.SET_NULL, related_name='theme_user', null=True)
+    theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, related_name='theme', null=True)
+    dictionary = models.FileField(blank=True, null=False, upload_to='homework_dict')
+    conversation = models.FileField(blank=True, null=False, upload_to='homework_conv')
+    translation = models.FileField(blank=True, null=False, upload_to='homework_translation')
+    exercise = models.ImageField(blank=True, null=False, upload_to='homework_ex')
+    comment = models.CharField(max_length=50, null=True)
+    is_available = models.BooleanField(default=False)
+
 
 
