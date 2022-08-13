@@ -2,43 +2,79 @@
 from .models import *
 from .serializers import *
 from rest_framework import generics
+from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
+
+class SitePagination(PageNumberPagination):
+    page_size = 3
 
 class CourseView(generics.ListCreateAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+    pagination_class = LimitOffsetPagination
+    filterset_fields = ['name']
+    search_fields = ['^name']
 
 
 class CourseDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
 
+class CategoryPagination(PageNumberPagination):
+    page_size = 3
+
 class CategoryView(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    filterset_fields = '__all__'
+    search_fields = ['^title']
+    ordering_fields = ['title']
+    pagination_class = CategoryPagination
+
 
 class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
+
+class OrderPagination(LimitOffsetPagination):
+    page_size = 3
+
 class OrderView(generics.ListCreateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    search_fields = "__all__"
+    filterset_fields = '__all__'
+    ordering_fields = '__all__'
+    pagination_class = OrderPagination
 
 class OrderDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
 
+class HomeworkPagination(LimitOffsetPagination):
+    page_size = 1
+
 class HomeworkView(generics.ListCreateAPIView):
     queryset = Homework.objects.all()
     serializer_class = HomeworkSerializer
+    pagination_class = HomeworkPagination
+    filterset_fields = '__all__'
+    search_fields = ["^student"]
+
 
 class HomeworkDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = HomeworkSerializer
 
+class ThemePagination(PageNumberPagination):
+    page_size = 3
 
 class ThemeView(generics.ListCreateAPIView):
     queryset = Theme.objects.all()
     serializer_class = ThemeSerializer
+    filterset_fields = ['name']
+    search_fields = ["^name"]
+    pagination_class = ThemePagination
+    ordering_fields = ['name']
 
 class ThemeDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Theme.objects.all()
@@ -47,10 +83,13 @@ class ThemeDetailView(generics.RetrieveUpdateDestroyAPIView):
 class ThemeUserView(generics.ListCreateAPIView):
     queryset = Theme_user.objects.all()
     serializer_class = ThemeUserSerializer
+    filterset_fields = ['student', "theme"]
+    search_fields = ["student"]
 
 class ThemeUserDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Theme_user.objects.all()
     serializer_class = ThemeUserSerializer
+
 
 
 
