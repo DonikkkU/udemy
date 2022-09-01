@@ -58,7 +58,7 @@ class HomeworkView(generics.ListCreateAPIView):
     queryset = Homework.objects.all()
     serializer_class = HomeworkSerializer
     pagination_class = HomeworkPagination
-    filterset_fields = '__all__'
+    filterset_fields = ["student"]
     search_fields = ["^student"]
 
 
@@ -79,6 +79,9 @@ class ThemeView(generics.ListCreateAPIView):
 class ThemeDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Theme.objects.all()
     serializer_class = ThemeSerializer
+    filterset_fields = ['name']
+    search_fields = ["^name"]
+    ordering_fields = ['name']
 
 class ThemeUserView(generics.ListCreateAPIView):
     queryset = Theme_user.objects.all()
