@@ -6,3 +6,9 @@ class ProfilesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profiles
         fields = '__all__'
+
+
+class TeacherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profiles
+        fields = ['full_name', 'user', 'ROLE', 'image', 'about']
