@@ -25,12 +25,14 @@ class Profiles(models.Model):
     students_count = models.IntegerField(default=0)
     rate = models.IntegerField(default=0)
     about = models.TextField(max_length=1000, blank=True, null=False)
-    social_facebook = models.URLField(max_length=100, default="instagram")
+    social_facebook = models.URLField(max_length=100, blank=True, null=True)
     social_youtube = models.URLField(blank=True, null=True)
     social_telegram = models.URLField(blank=True, null=True)
     social_instagram = models.URLField(blank=True, null=True)
     created = models.DateField(auto_now_add=True)
+    teachers_bio = models.TextField(max_length=500, blank=True, null=True)
 
 
-
+    def __str__(self):
+        return f'{self.full_name}'
 

@@ -12,7 +12,7 @@ class ProfilesView(generics.ListCreateAPIView):
 class ProfilesDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Profiles.objects.all()
     serializer_class = ProfilesSerializer
-    filterset_fields = '__all__'
+    filterset_fields = ['full_name', 'user']
     search_fields = ['-full_name']
     ordering_fields = '__all__'
 
@@ -25,7 +25,7 @@ class TeachersView(generics.ListCreateAPIView):
 class TeachersDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Profiles.objects.all()
     serializer_class = TeacherSerializer
-    filterset_fields = ['full_name', 'user']
+    filterset_fields = 'full_name', 'user'
     search_fields = ['-full_name']
     ordering_fields = '__all__'
 
