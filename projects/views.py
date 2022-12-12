@@ -3,7 +3,7 @@ from .models import *
 from .serializers import *
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
-
+from rest_framework.decorators import permission_classes
 class SitePagination(PageNumberPagination):
     page_size = 3
 

@@ -1,3 +1,5 @@
+from django.core.validators import RegexValidator
+
 from users.models import Profiles
 from django.db import models
 import os
@@ -28,9 +30,15 @@ class Category(models.Model):
 
 
 class Order(models.Model):
+    name = models.CharField(max_length=50, blank=True, null=False, help_text='(fakhriyor)')
     course_id = models.ForeignKey(Course, on_delete=models.SET_NULL, related_name='course_id', null=True)
-    student_id = models.ForeignKey(Course, on_delete=models.SET_NULL, related_name='students_course', null=True)
+    # student_id = models.ForeignKey(Course, on_delete=models.SET_NULL, related_name='students_course', null=True)
+    # phone_regex = RegexValidator(regex=r'^998\d{9}$', message="Telefon raqam +998121231212 formatida bo'lishi kerak")
+    phone_number = models.CharField(max_length=14, unique=True, default=+998)
     bought_at = models.DateTimeField(auto_now_add=True, null=True)
+
+    def __str__(self):
+        return f'{self.name}'
 
 
 
